@@ -8,3 +8,7 @@ C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScrib
 C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.pdb
 C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.exe
 C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.pdb
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.exe.manifest
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.application
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.exe.manifest
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.application
