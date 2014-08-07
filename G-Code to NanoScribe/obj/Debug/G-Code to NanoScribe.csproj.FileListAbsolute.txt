@@ -1,0 +1,1 @@
+C:\Sites\G-Code to NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.exe.config
