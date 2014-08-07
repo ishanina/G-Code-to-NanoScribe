@@ -20,10 +20,27 @@ namespace G_Code_to_NanoScribe
             InitializeComponent();
         }
 
-        private void p_Exited(object sender, EventArgs e)
+        public void p_Exited(object sender, EventArgs e)
         {
-            Status.Text = "Done";
-            throw new NotImplementedException();
+            SetStatus("Done");
+        }
+
+        delegate void SetTextCallback(string text);
+
+        private void SetStatus(string text)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.Status.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(SetStatus);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                this.Status.Text = text;
+            }
         }
 
         private void Run_Button_Click(object sender, EventArgs e)
@@ -77,8 +94,6 @@ namespace G_Code_to_NanoScribe
             bool okClicked = Convert.ToBoolean(Open_File_Box.ShowDialog());
             if (okClicked)
                 Input_File.Text = Open_File_Box.FileName;
-            if (p.HasExited)
-                Status.Text = "Done?";
         }
     }
 }

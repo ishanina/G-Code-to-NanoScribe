@@ -145,7 +145,8 @@ namespace G_Code_to_NanoScribe
             this.TransparencyKey = System.Drawing.Color.Gainsboro;
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.p.Exited += p_Exited;
+            this.p.EnableRaisingEvents = true;
+            this.p.Exited += new System.EventHandler(p_Exited);
         }
 
         #endregion
