@@ -1,1 +1,10 @@
 C:\Sites\G-Code to NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.exe.config
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.exe.config
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.csprojResolveAssemblyReference.cache
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G_Code_to_NanoScribe.Main_App.resources
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G_Code_to_NanoScribe.Properties.Resources.resources
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.csproj.GenerateResource.Cache
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.exe
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\bin\Debug\G-Code to NanoScribe.pdb
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.exe
+C:\Sites\G-Code-to-NanoScribe\G-Code to NanoScribe\obj\Debug\G-Code to NanoScribe.pdb

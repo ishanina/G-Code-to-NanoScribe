@@ -1,4 +1,6 @@
-﻿namespace G_Code_to_NanoScribe
+﻿using System.Diagnostics;
+
+namespace G_Code_to_NanoScribe
 {
     partial class Main_App
     {
@@ -26,6 +28,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        public Process p = new Process();
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_App));
@@ -109,6 +112,7 @@
             this.Status.ReadOnly = true;
             this.Status.Size = new System.Drawing.Size(100, 20);
             this.Status.TabIndex = 4;
+            this.Status.Text = "Idle";
             // 
             // Status_Label
             // 
@@ -138,10 +142,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main_App";
             this.Text = "G-Code to NanoScribe";
-            this.TransparencyKey = System.Drawing.Color.Transparent;
+            this.TransparencyKey = System.Drawing.Color.Gainsboro;
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            this.p.Exited += p_Exited;
         }
 
         #endregion
