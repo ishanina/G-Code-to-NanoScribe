@@ -65,16 +65,25 @@ namespace G_Code_to_NanoScribe
                     }
                 }
             }
-            p.StartInfo.Arguments = "\"" + System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini") + "\" \"" + Input_File.Text + "\" \"" + Output_File.Text + "\"";
-            p.StartInfo.CreateNoWindow = true;
-            p.Start();
-            Status.Text = "Running";
+            try
+            {
+                Convert.ToInt32(Skip_Layers.Text);
+                p.StartInfo.Arguments = "\"" + System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini") + "\" \"" + Input_File.Text + "\" \"" + Output_File.Text + "\" " + Skip_Layers.Text;
+                Console.WriteLine(p.StartInfo.Arguments);
+                p.StartInfo.CreateNoWindow = true;
+                p.Start();
+                Status.Text = "Running";
+            }
+            catch (FormatException)
+            {
+                Status.Text = "Error: Enter an Integer into Skip Layers";
+            }
         }
 
         private void Save_File_Click(object sender, EventArgs e)
         {
             SaveFileDialog Out_File = new SaveFileDialog();
-            Out_File.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            Out_File.Filter = "General Writing Language Files (.gwl)|*.gwl|All Files (*.*)|*.*";
             Out_File.FilterIndex = 1;
             Out_File.Title = "Choose a file to Output to";
             bool okClicked = Convert.ToBoolean(Out_File.ShowDialog());

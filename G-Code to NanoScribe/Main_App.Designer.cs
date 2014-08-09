@@ -41,13 +41,15 @@ namespace G_Code_to_NanoScribe
             this.Output_File = new System.Windows.Forms.TextBox();
             this.Status = new System.Windows.Forms.TextBox();
             this.Status_Label = new System.Windows.Forms.Label();
+            this.Skip_Layers = new System.Windows.Forms.TextBox();
+            this.SkipLayersLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Run_Button
             // 
-            this.Run_Button.Location = new System.Drawing.Point(150, 167);
+            this.Run_Button.Location = new System.Drawing.Point(210, 167);
             this.Run_Button.Name = "Run_Button";
-            this.Run_Button.Size = new System.Drawing.Size(295, 23);
+            this.Run_Button.Size = new System.Drawing.Size(235, 23);
             this.Run_Button.TabIndex = 0;
             this.Run_Button.Text = "Run";
             this.Run_Button.UseVisualStyleBackColor = true;
@@ -107,21 +109,38 @@ namespace G_Code_to_NanoScribe
             // 
             // Status
             // 
-            this.Status.Location = new System.Drawing.Point(274, 196);
+            this.Status.Location = new System.Drawing.Point(210, 196);
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
-            this.Status.Size = new System.Drawing.Size(100, 20);
+            this.Status.Size = new System.Drawing.Size(235, 20);
             this.Status.TabIndex = 4;
             this.Status.Text = "Idle";
             // 
             // Status_Label
             // 
             this.Status_Label.AutoSize = true;
-            this.Status_Label.Location = new System.Drawing.Point(233, 199);
+            this.Status_Label.Location = new System.Drawing.Point(158, 199);
             this.Status_Label.Name = "Status_Label";
             this.Status_Label.Size = new System.Drawing.Size(37, 13);
             this.Status_Label.TabIndex = 5;
             this.Status_Label.Text = "Status";
+            // 
+            // Skip_Layers
+            // 
+            this.Skip_Layers.Location = new System.Drawing.Point(161, 169);
+            this.Skip_Layers.Name = "Skip_Layers";
+            this.Skip_Layers.Size = new System.Drawing.Size(43, 20);
+            this.Skip_Layers.TabIndex = 6;
+            this.Skip_Layers.Text = "0";
+            // 
+            // SkipLayersLabel
+            // 
+            this.SkipLayersLabel.AutoSize = true;
+            this.SkipLayersLabel.Location = new System.Drawing.Point(93, 172);
+            this.SkipLayersLabel.Name = "SkipLayersLabel";
+            this.SkipLayersLabel.Size = new System.Drawing.Size(62, 13);
+            this.SkipLayersLabel.TabIndex = 7;
+            this.SkipLayersLabel.Text = "Skip Layers";
             // 
             // Main_App
             // 
@@ -129,6 +148,8 @@ namespace G_Code_to_NanoScribe
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(646, 263);
+            this.Controls.Add(this.SkipLayersLabel);
+            this.Controls.Add(this.Skip_Layers);
             this.Controls.Add(this.Status_Label);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.Output_File);
@@ -147,6 +168,7 @@ namespace G_Code_to_NanoScribe
             this.PerformLayout();
             this.p.EnableRaisingEvents = true;
             this.p.Exited += new System.EventHandler(p_Exited);
+
         }
 
         #endregion
@@ -160,6 +182,8 @@ namespace G_Code_to_NanoScribe
         private System.Windows.Forms.TextBox Output_File;
         private System.Windows.Forms.TextBox Status;
         private System.Windows.Forms.Label Status_Label;
+        private System.Windows.Forms.TextBox Skip_Layers;
+        private System.Windows.Forms.Label SkipLayersLabel;
     }
 }
 
