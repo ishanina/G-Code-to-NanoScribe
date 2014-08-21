@@ -176,6 +176,7 @@ def runNotOnce(startingX,startingY,startingZ,endingX,endingY,endingZ,stepX,stepY
     k = 0;
     inside = [[[False for k in xrange(amountZ)] for j in xrange(amountY)]for i in xrange(amountX)]
     extruding = False
+    notnowWritelast = [[[False for k in xrange(amountZ)] for j in xrange(amountY)]for i in xrange(amountX)]
     for rawline in file:
         # Universal Start
 
@@ -217,6 +218,7 @@ def runNotOnce(startingX,startingY,startingZ,endingX,endingY,endingZ,stepX,stepY
                     nowendX = nowstartX + stepX
                     nowendY = nowstartY + stepY
                     nowendZ = nowstartZ + stepZ
+                    Writelast = notnowWritelast[i][j][k]
                     nowprevinside = inside[i][j][k]
                     inside[i][j][k] = xAxis >= nowstartX and xAxis <= nowendX and yAxis <= nowendY and yAxis >= nowstartY
                     nowinside = inside[i][j][k]
@@ -233,6 +235,7 @@ def runNotOnce(startingX,startingY,startingZ,endingX,endingY,endingZ,stepX,stepY
                         if yPos != 0 and (yPos - yAxis)*(yPos - prevY) < 0:
                             xPos = (xAxis * yPos - xAxis * prevY - prevX * yPos + prevX * yAxis) / (yAxis - prevY)
                             writeAxes(xPos,yPos,zAxis,"% Interpolated Point",outfile)
+                            Writelast = False
 
                         # Interpolates Point along Y Direction
                         xPos = 0
@@ -244,6 +247,7 @@ def runNotOnce(startingX,startingY,startingZ,endingX,endingY,endingZ,stepX,stepY
                         if xPos != 0 and (xPos - xAxis)*(xPos - prevX) < 0:
                             yPos = (yAxis * xPos - yAxis * prevX - prevY * xPos + prevY * xAxis) / (xAxis - prevX)
                             writeAxes(xPos,yPos,zAxis,"% Interpolated Point",outfile)
+                            Writelast = False
 
                     if nowprevinside and not nowinside and nowExtruding:
                         # Interpolates Point along Y Direction
@@ -255,7 +259,7 @@ def runNotOnce(startingX,startingY,startingZ,endingX,endingY,endingZ,stepX,stepY
                             xPos = nowendX
                         if xPos != 0 and (xPos - xAxis)*(xPos - prevX) < 0:
                             writeAxes(xPos,(yAxis * xPos - yAxis * prevX - prevY * xPos + prevY * xAxis) / (xAxis - prevX),zAxis,"% Interpolated Point",outfile)
-
+                            Writelast = False
                         # Interpolates Point along X Direction
                         xPos = 0
                         yPos = 0
@@ -265,13 +269,20 @@ def runNotOnce(startingX,startingY,startingZ,endingX,endingY,endingZ,stepX,stepY
                             yPos = nowendY
                         if yPos != 0 and (yPos - yAxis)*(yPos - prevY) < 0:
                             writeAxes((xAxis * yPos - xAxis * prevY - prevX * yPos + prevX * yAxis) / (yAxis - prevY),yPos,zAxis,"% Interpolated Point",outfile)
+                            Writelast = False
+                        if not Writelast:
+                            outfile.write("Write\n")
+                            Writelast = True;
+                    if oldZAxis != zAxis and not Writelast:
                         outfile.write("Write\n")
-                    if oldZAxis != zAxis:
-                        outfile.write("Write\n")
+                        Writelast = True
                     if nowExtruding and nowinside: #While it is Extruding
                         writeAxes(xAxis,yAxis,zAxis," ",outfile)
-                    if comment.startswith("move to first perimeter point"):
+                        Writelast = False
+                    if comment.startswith("move to first perimeter point") and not Writelast:
                         outfile.write("Write\n")
+                        Writelast = True
+                    notnowWritelast[i][j][k] = Writelast
     for i in xrange(amountX):
         for j in xrange(amountY):
             arrayoutfile[i][j].close()
