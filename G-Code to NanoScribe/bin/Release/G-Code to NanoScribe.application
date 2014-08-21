@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="G-Code to NanoScribe.exe.manifest" size="3530">
+    <dependentAssembly dependencyType="install" codebase="G-Code to NanoScribe.exe.manifest" size="4015">
       <assemblyIdentity name="G-Code to NanoScribe.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>t7H1QzyKhVwRQYr7bsr6R6Q9UcmaukachVNYSazZjwQ=</dsig:DigestValue>
+        <dsig:DigestValue>FfB1/wXJZUZEVRwx/ewGubpgyaAAP5ebdbAik6M8kDw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

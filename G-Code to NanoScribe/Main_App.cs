@@ -22,61 +22,77 @@ namespace G_Code_to_NanoScribe
 
         public void p_Exited(object sender, EventArgs e)
         {
-            SetStatus("Done");
+            SetStatus(Status, "Done");
         }
 
-        delegate void SetTextCallback(string text);
+        delegate void SetTextCallback(TextBox Status, string text);
 
-        private void SetStatus(string text)
+        private void SetStatus(TextBox Status, string text)
         {
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (this.Status.InvokeRequired)
+            if (Status.InvokeRequired)
             {
                 SetTextCallback d = new SetTextCallback(SetStatus);
-                this.Invoke(d, new object[] { text });
+                this.Invoke(d, new object[] { Status, text });
             }
             else
             {
-                this.Status.Text = text;
+                Status.Text = text;
+            }
+        }
+
+        public void Find_Python_Script()
+        {
+            if (File.Exists(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\convert.py"))
+            {
+                System.IO.File.WriteAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini", System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\convert.py");
+            }
+            else
+            {
+                OpenFileDialog Python_Script = new OpenFileDialog();
+                Python_Script.Filter = "Python Scripts (.py)|*.py|All Files (*.*)|*.*";
+                Python_Script.FilterIndex = 1;
+                Python_Script.Title = "Choose a Python Script";
+                bool done = Convert.ToBoolean(Python_Script.ShowDialog());
+                if (done)
+                {
+                    System.IO.File.WriteAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini", Python_Script.FileName);
+                }
             }
         }
 
         private void Run_Button_Click(object sender, EventArgs e)
         {
-            p.StartInfo.FileName = "C:\\Python27\\pythonw.exe";
+            p.StartInfo.FileName = "C:\\Python27\\python.exe";
             if (!File.Exists(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini"))
-            {
-                if (File.Exists(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\convert.py"))
-                {
-                    System.IO.File.WriteAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini", System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\convert.py");
-                }
-                else
-                {
-                    OpenFileDialog Python_Script = new OpenFileDialog();
-                    Python_Script.Filter = "Python Scripts (.py)|*.py|All Files (*.*)|*.*";
-                    Python_Script.FilterIndex = 1;
-                    Python_Script.Title = "Choose a Python Script";
-                    bool done = Convert.ToBoolean(Python_Script.ShowDialog());
-                    if (done)
-                    {
-                        System.IO.File.WriteAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini", Python_Script.FileName);
-                    }
-                }
-            }
+                Find_Python_Script();
             try
             {
+                if (!File.Exists(System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini")))
+                    Find_Python_Script();
                 Convert.ToInt32(Skip_Layers.Text);
-                p.StartInfo.Arguments = "\"" + System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini") + "\" \"" + Input_File.Text + "\" \"" + Output_File.Text + "\" " + Skip_Layers.Text;
+                p.StartInfo.Arguments = "\"" + System.IO.File.ReadAllText(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\setup.ini") + "\" \"" + Input_File.Text + "\" \"" + Output_File.Text + "\" " + Skip_Layers.Text + " " + X_Size.Text + " " + Y_Size.Text + " " + Z_Size.Text + " " + X_Shift.Text + " " + Y_Shift.Text;
                 Console.WriteLine(p.StartInfo.Arguments);
                 p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.UseShellExecute = false;
                 p.Start();
+                Output_Data.Text = "";
+                try
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                }
+                catch (InvalidOperationException)
+                { }
                 Status.Text = "Running";
             }
             catch (FormatException)
             {
-                Status.Text = "Error: Enter an Integer into Skip Layers";
+                Status.Text = "Error: Enter the right Format in text boxes";
             }
         }
 
@@ -103,6 +119,28 @@ namespace G_Code_to_NanoScribe
             bool okClicked = Convert.ToBoolean(Open_File_Box.ShowDialog());
             if (okClicked)
                 Input_File.Text = Open_File_Box.FileName;
+        }
+
+        async Task Get_Status()
+        {
+            StreamReader q = p.StandardOutput;
+            while (!p.HasExited)
+                Console.WriteLine(q.ReadLine());
+            await Task.Delay(1000);
+        }
+
+        private void Main_App_Load(object sender, EventArgs e)
+        {
+            p.EnableRaisingEvents = true;
+            p.Exited += new System.EventHandler(p_Exited);
+            p.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(p_OutputDataReceived);
+            p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(p_OutputDataReceived);
+        }
+
+        private void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine("Hi");
+            SetStatus(Output_Data,Output_Data.Text + e.Data);
         }
     }
 }
